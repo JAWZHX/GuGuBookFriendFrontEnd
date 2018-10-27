@@ -1,0 +1,40 @@
+{
+  "pages": [
+    "pages/books/main",
+    "pages/comments/main",
+    "pages/me/main"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#007ACC",
+    "navigationBarTitleText": "咕咕书友",
+    "navigationBarTextStyle": "light"
+  },
+  "tabBar": {
+    "color": "black",
+    "selectedColor": "white",
+    "backgroundColor": "#007ACC",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/books/main",
+        "text": "书籍",
+        "iconPath": "static/icons/book.png",
+        "selectedIconPath": "static/icons/book-active.png"
+      },
+      {
+        "pagePath": "pages/comments/main",
+        "text": "评论",
+        "iconPath": "static/icons/todo.png",
+        "selectedIconPath": "static/icons/todo-active.png"
+      },
+      {
+        "pagePath": "pages/me/main",
+        "text": "我的",
+        "iconPath": "static/icons/me.png",
+        "selectedIconPath": "static/icons/me-active.png"
+      }
+    ],
+    "position": "bottom"
+  }
+}
