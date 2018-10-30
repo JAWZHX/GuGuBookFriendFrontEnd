@@ -4,12 +4,31 @@
     </div>
 </template>
 <script>
-import utils from '../../utils/index.js'
+import {GET, userLogin} from '../../utils/index.js'
+import store from '../../store'
 export default {
   name: 'books',
-  async created () {
-    const res = await utils.get('/demo')
-    console.log(res)
+  methods: {
+    changeLoginState (loginState) {
+      store.commit('changeLoginState', loginState)
+    }
+  },
+  async onLoad () {
+    // const res = await GET('/demo')
+    // console.log(res)
+  },
+  async onShow () {
+    console.log('book.vue')
+    // 
+    let rs = await userLogin()
+    if (rs) {
+      console.log(rs)
+      this.changeLoginState(rs)
+      this.$router.push({path: '/pages/me/main', isTab: true})
+    } else {
+      // 业务处理
+      console.log('业务处理')
+    }
   }
 }
 </script>
