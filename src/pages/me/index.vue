@@ -1,6 +1,7 @@
 <template>
     <div>
         <div v-if="!userInfo">
+            <h1>尊敬的用户，你只有先授权登录才可以使用其他功能哦！</h1>
             <button open-type="getUserInfo" @getuserinfo="bindGetUserInfo">授权登录</button>
         </div>
         <div v-if="userInfo">
@@ -9,7 +10,7 @@
     </div>
 </template>
 <script>
-import {login, successToast, failToast, saveOrUpdateUser, userLogin} from '../../utils/index'
+import {login, successToast, failToast, saveOrUpdateUser, userLogin, getUserInfo} from '../../utils/index'
 import store from '../../store.js'
 export default {
   name: 'me',
@@ -18,21 +19,15 @@ export default {
       userInfo: null
     }
   },
-  watch: {
-    userInfo: function (value) {
-      console.log(value)
-      wx.setStorage({
-        key: 'skey',
-        data: value.skey
-      })
-    }
-  },
   computed: {
     loginState () {
       return store.state.loginState
     }
   },
   methods: {
+    changeLoginState (loginState) {
+      store.commit('changeLoginState', loginState)
+    },
     async bindGetUserInfo (e) {
       if (e.mp.detail.errMsg !== 'getUserInfo:ok') {
         // 拒绝授权提示getUserInfo:fail auth deny
@@ -46,31 +41,27 @@ export default {
         if (res.code) {
           options.code = res.code
           options.loginState = this.loginState
-          this.userInfo = await saveOrUpdateUser(options)
+          let rs = await saveOrUpdateUser(options)
+          this.userInfo = rs.userInfo
+          wx.setStorage({
+            key: 'skey',
+            data: rs.skey
+          })
+          this.changeLoginState('update')
         }
       }
     }
   },
-  onShow () {
-    // // 1、判断skey是否存在
-    // let loginFlag = wx.getStorageSync('skey')
-    // if(loginFlag) {
-    //   // 存在
-    //   // 检查session_key是否过期(true:没过期， false：过期)
-    //   let isExpired = await checkSession()
-    //   if (isExpired) {
-    //     // 没过期（做逻辑处理）
-    //   } else {
-    //     // 过期（需要去更新数据库里的用户信息）
-    //   }
-    // } else {
-    //   // 不存在（跳到登录tab页）
-    //   wx.switchTab({
-    //     url: '../me/main'
-    //   })
-    // }
-    console.log('me.vue')
-    console.log(this.loginState)
+  async onShow () {
+    // 登录检查
+    let rs = await userLogin()
+    if (rs) {
+      this.changeLoginState(rs)
+    } else {
+      // 获取用户信息
+      let rs = await getUserInfo()
+      this.userInfo = rs.userInfo
+    }
   }
 }
 </script>

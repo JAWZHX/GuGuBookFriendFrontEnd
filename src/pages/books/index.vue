@@ -18,16 +18,13 @@ export default {
     // console.log(res)
   },
   async onShow () {
-    console.log('book.vue')
-    // 
+    // 登录检查
     let rs = await userLogin()
     if (rs) {
-      console.log(rs)
       this.changeLoginState(rs)
       this.$router.push({path: '/pages/me/main', isTab: true})
     } else {
       // 业务处理
-      console.log('业务处理')
     }
   }
 }
