@@ -14,8 +14,8 @@ export default {
     }
   },
   async onLoad () {
-    // const res = await GET('/demo')
-    // console.log(res)
+    const res = await GET('/demo')
+    console.log(res)
   },
   async onShow () {
     // 登录检查

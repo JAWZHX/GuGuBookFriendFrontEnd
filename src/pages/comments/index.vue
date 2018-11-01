@@ -9,9 +9,9 @@ import store from '../../store.js'
 export default {
   name: 'comments',
   methods: {
-      changeLoginState (loginState) {
-        store.commit('changeLoginState', loginState)
-      }
+    changeLoginState (loginState) {
+      store.commit('changeLoginState', loginState)
+    }
   },
   async onShow () {
     // 登录检查
