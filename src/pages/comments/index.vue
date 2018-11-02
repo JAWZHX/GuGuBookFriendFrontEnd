@@ -4,7 +4,7 @@
     </div>
 </template>
 <script>
-import {userLogin} from '../../utils/index'
+import {POST, userLogin} from '../../utils/index'
 import store from '../../store.js'
 export default {
   name: 'comments',
@@ -21,7 +21,8 @@ export default {
       this.$router.push({path: '/pages/me/main', isTab: true})
     } else {
       // 业务处理
-      console.log('业务处理')
+      const res = await POST('/demo')
+      console.log(res)
     }
   }
 }

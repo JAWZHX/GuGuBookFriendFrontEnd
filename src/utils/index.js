@@ -7,7 +7,7 @@ export const GET = (url, data = {}) => {
       data,
       url: config.host + url,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (parseInt(res.data.code) === 0) {
           resolve(res.data.data)
         } else {
           reject(res.data)
@@ -21,14 +21,14 @@ export const GET = (url, data = {}) => {
 }
 
 // post请求
-export const POST = (url, data) => {
+export const POST = (url, data = {}) => {
   return new Promise((resolve, reject) => {
     wx.request({
       data,
       method: 'POST',
       url: config.host + url,
       success: (res) => {
-        if (res.data.code === 0) {
+        if (parseInt(res.data.code) === 0) {
           resolve(res.data.data)
         } else {
           reject(res.data)

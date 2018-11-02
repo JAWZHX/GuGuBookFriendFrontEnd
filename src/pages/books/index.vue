@@ -13,10 +13,6 @@ export default {
       store.commit('changeLoginState', loginState)
     }
   },
-  async onLoad () {
-    const res = await GET('/demo')
-    console.log(res)
-  },
   async onShow () {
     // 登录检查
     let rs = await userLogin()
@@ -25,6 +21,8 @@ export default {
       this.$router.push({path: '/pages/me/main', isTab: true})
     } else {
       // 业务处理
+      const res = await GET('/demo')
+      console.log(res)
     }
   }
 }

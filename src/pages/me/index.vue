@@ -15,9 +15,10 @@
     </div>
 </template>
 <script>
-import {login, successToast, failToast, saveOrUpdateUser, userLogin, getUserInfo} from '../../utils/index'
+import {login, successToast, failToast, saveOrUpdateUser, userLogin, getUserInfo, POST} from '../../utils/index'
 import store from '../../store.js'
 import ProgressComponent from '../../components/progress.vue'
+import config from '../../config'
 export default {
   name: 'me',
   data () {
@@ -37,11 +38,34 @@ export default {
     changeLoginState (loginState) {
       store.commit('changeLoginState', loginState)
     },
+    // 添加图书
+    async addBook (isbn) {
+      let skey = wx.getStorageSync('skey')
+      let data = {
+            isbn,
+            skey
+          }
+      console.log(data)
+      wx.request({
+        data,
+        method: 'POST',
+        url: config.host + '/saveBook',
+        success: (res) => {
+          wx.showModal({
+            title: '添加图书',
+            content: res.data.data.msg,
+            showCancel: false
+          })
+        }
+      })
+    },
     // 扫描图书
     scanBook () {
       wx.scanCode({
-        success (res) {
-          console.log(res)
+        success: (res) => {
+          if(res.result) {
+            this.addBook(res.result)
+          }
         }
       })
     },
