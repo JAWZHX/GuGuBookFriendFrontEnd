@@ -1,5 +1,6 @@
 <template>
     <div class="book-container">
+      <top-swiper :top-list="topList"></top-swiper>
       <div v-if="bookList.length > 0">
         <card-component v-for="book in bookList" :key="book.isbn" :book="book"></card-component>
       </div>
@@ -13,23 +14,27 @@ import { GET, userLogin } from "../../utils/index.js";
 import store from "../../store";
 import CardComponent from "./../../components/card.vue";
 import config from '../../config'
+import TopSwiper from './../../components/topSwiper.vue'
 export default {
   name: "books",
   components: {
-    CardComponent
+    CardComponent,
+    TopSwiper
   },
   data() {
     return {
       bookList: [],
       page: 1,
       pageSize: 10,
-      more: true
+      more: true,
+      topList: []
     };
   },
   methods: {
     changeLoginState(loginState) {
       store.commit("changeLoginState", loginState);
     },
+    // 获取图书列表
     async getBookList(init) {
       if (init) {
         this.page = 1;
@@ -63,6 +68,18 @@ export default {
           console.log(err)
         }
       });
+    },
+    // 获取轮播图数据
+    async getTop() {
+      wx.request({
+        url: config.host + '/top',
+        success: (res) => {
+          this.topList = res.data.data.list
+        },
+        fail: (err) =>{
+          console.log(err)
+        }
+      })
     }
   },
   onPullDownRefresh() {
@@ -76,7 +93,7 @@ export default {
     this.page += 1;
     this.getBookList();
   },
-  async mounted() {
+  async onShow() {
     // 登录检查
     let rs = await userLogin();
     if (rs) {
@@ -85,6 +102,7 @@ export default {
     } else {
       // 业务处理(获取图书列表信息)
       this.getBookList();
+      this.getTop()
     }
   }
 };

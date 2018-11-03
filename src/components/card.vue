@@ -1,6 +1,6 @@
 <template>
     <div class="card-container" @click="goToDetail()">
-        <div class="img-container">
+        <div class="img-container" @click.stop="preview">
             <img :src="book.image" alt="图书封面" mode="aspectFit">
         </div>
         <div class="detail">
@@ -33,9 +33,18 @@ export default {
     }
   },
   methods: {
-      goToDetail () {
-          this.$router.push({path: '/pages/detail/main', query: {id: this.book.id}})
-      }
+    goToDetail() {
+      this.$router.push({
+        path: "/pages/detail/main",
+        query: { id: this.book.id }
+      });
+    },
+    preview() {
+      wx.previewImage({
+        current: this.book.image,
+        urls: [this.book.image]
+      });
+    }
   },
   props: {
     book: {
