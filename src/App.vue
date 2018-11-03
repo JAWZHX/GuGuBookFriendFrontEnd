@@ -16,5 +16,8 @@ export default {
 .btn:active {
   background-color: #007AFF;
 }
+.text-primary {
+  color: #007ACC;
+}
 </style>
 
