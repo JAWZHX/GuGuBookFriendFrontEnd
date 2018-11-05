@@ -21,29 +21,29 @@
     </div>
 </template>
 <script>
-import RateComponent from "./rate.vue";
+import RateComponent from './rate.vue'
 export default {
-  name: "card",
+  name: 'card',
   components: {
     RateComponent
   },
   computed: {
-    uploader() {
-      return JSON.parse(this.book.user.user_info).nickName;
+    uploader () {
+      return this.book.user_info.nickName
     }
   },
   methods: {
-    goToDetail() {
+    goToDetail () {
       this.$router.push({
-        path: "/pages/detail/main",
+        path: '/pages/detail/main',
         query: { id: this.book.id }
-      });
+      })
     },
-    preview() {
+    preview () {
       wx.previewImage({
         current: this.book.image,
         urls: [this.book.image]
-      });
+      })
     }
   },
   props: {
@@ -52,7 +52,7 @@ export default {
       require: true
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .card-container {

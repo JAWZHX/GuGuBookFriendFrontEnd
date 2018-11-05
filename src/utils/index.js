@@ -1,43 +1,39 @@
 import config from '../config'
 
-// get请求
-export const GET = (url, data = {}) => {
+// GET请求
+export function GET (url, data) {
+  return request(url, 'GET', data)
+}
+// POST请求
+export function POST (url, data) {
+  return request(url, 'POST', data)
+}
+
+function request (url, method, data, header = {}) {
   return new Promise((resolve, reject) => {
     wx.request({
       data,
+      method,
+      header,
       url: config.host + url,
-      success: (res) => {
-        if (parseInt(res.data.code) === 0) {
+      success: function (res) {
+        if (res.data.code === 0) {
           resolve(res.data.data)
         } else {
+          showModal('失败', res.data.data.msg)
           reject(res.data)
         }
-      },
-      fail: (err) => {
-        reject(err)
       }
     })
   })
 }
 
-// post请求
-export const POST = (url, data = {}) => {
-  return new Promise((resolve, reject) => {
-    wx.request({
-      data,
-      method: 'POST',
-      url: config.host + url,
-      success: (res) => {
-        if (parseInt(res.data.code) === 0) {
-          resolve(res.data.data)
-        } else {
-          reject(res.data)
-        }
-      },
-      fail: (err) => {
-        reject(err)
-      }
-    })
+// 显示提示模态框
+export function showModal (title, content) {
+  wx.showModal({
+    title,
+    content,
+    showCancel: false
   })
 }
 

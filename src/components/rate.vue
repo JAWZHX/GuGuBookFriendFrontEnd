@@ -6,19 +6,19 @@
 </template>
 <script>
 export default {
-  name: "rate",
+  name: 'rate',
   props: {
     value: {
       type: String,
-      default: "0"
+      default: '0'
     }
   },
   computed: {
-    style() {
-      return `width:${this.value/2*4/5}em;`;
+    style () {
+      return `width:${this.value / 2 * 4 / 5}em;`
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .rate-container {

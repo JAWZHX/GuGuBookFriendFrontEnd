@@ -42,9 +42,9 @@ export default {
     async addBook (isbn) {
       let skey = wx.getStorageSync('skey')
       let data = {
-            isbn,
-            skey
-          }
+        isbn,
+        skey
+      }
       console.log(data)
       wx.request({
         data,
@@ -63,7 +63,7 @@ export default {
     scanBook () {
       wx.scanCode({
         success: (res) => {
-          if(res.result) {
+          if (res.result) {
             this.addBook(res.result)
           }
         }

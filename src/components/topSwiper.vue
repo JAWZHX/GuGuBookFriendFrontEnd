@@ -25,24 +25,24 @@
 </template>
 <script>
 export default {
-    name: 'topSwiper',
-    props: {
-        topList: {
-            type: Array,
-            require: true
-        }
-    },
-    computed: {
-        tops () {
-            let res = this.topList
-            return [res.slice(0,3), res.slice(3,6), res.slice(6,9)]
-        }
-    },
-    methods: {
-        goToDetail (bookId) {
-            this.$router.push({path: '/pages/detail/main', query: {id: bookId}})
-        }
+  name: 'topSwiper',
+  props: {
+    topList: {
+      type: Array,
+      require: true
     }
+  },
+  computed: {
+    tops () {
+      let res = this.topList
+      return [res.slice(0, 3), res.slice(3, 6), res.slice(6, 9)]
+    }
+  },
+  methods: {
+    goToDetail (bookId) {
+      this.$router.push({path: '/pages/detail/main', query: {id: bookId}})
+    }
+  }
 }
 </script>
 <style lang="scss" scoped>
