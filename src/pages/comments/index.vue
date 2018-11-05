@@ -11,63 +11,63 @@
     </div>
 </template>
 <script>
-import { GET, POST, userLogin } from "../../utils/index";
-import CardComponent from '@/components/card.vue';
+import { GET, userLogin } from '../../utils/index'
+import CardComponent from '@/components/card.vue'
 import CommentListComponent from '@/components/commentList.vue'
-import store from "../../store.js";
+import store from '../../store.js'
 export default {
-  name: "comments",
-  data() {
+  name: 'comments',
+  data () {
     return {
       commentArray: [],
       books: [],
       skey: ''
-    };
+    }
   },
   components: {
     CardComponent,
     CommentListComponent
   },
   methods: {
-    changeLoginState(loginState) {
-      store.commit("changeLoginState", loginState);
+    changeLoginState (loginState) {
+      store.commit('changeLoginState', loginState)
     },
-    async getBooks(){
-      const books = await GET('/booklist',{
+    async getBooks () {
+      const books = await GET('/booklist', {
         skey: this.skey
       })
       this.books = books.list
     },
-    async getComments(){
-      const comments = await GET('/commentlist',{
+    async getComments () {
+      const comments = await GET('/commentlist', {
         skey: this.skey
       })
       this.commentArray = comments.list
     },
     init () {
+      this.skey = wx.getStorageSync('skey')
       wx.showNavigationBarLoading()
       this.getComments()
       this.getBooks()
       wx.hideNavigationBarLoading()
     }
   },
-  onPullDownRefresh(){
+  onPullDownRefresh () {
     this.init()
     wx.stopPullDownRefresh()
   },
-  async onShow() {
+  async onShow () {
     // 登录检查
-    let rs = await userLogin();
+    let rs = await userLogin()
     if (rs) {
-      this.changeLoginState(rs);
-      this.$router.push({ path: "/pages/me/main", isTab: true });
+      this.changeLoginState(rs)
+      this.$router.push({ path: '/pages/me/main', isTab: true })
     } else {
       // 业务处理
-      this.skey = wx.getStorageSync('skey')
       this.init()
     }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .comments-container {

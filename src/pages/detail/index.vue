@@ -55,45 +55,45 @@
     </div>
 </template>
 <script>
-import RateComponent from "./../../components/rate.vue";
-import CommentListComponent from "../../components/commentList.vue";
-import { GET, POST, showModal } from "../../utils/index";
+import RateComponent from './../../components/rate.vue'
+import CommentListComponent from '../../components/commentList.vue'
+import { GET, POST, showModal } from '../../utils/index'
 // 引入SDK核心类
-import { QQMapWX } from "../../../static/js/qqmap-wx-jssdk.js";
+import { QQMapWX } from '../../../static/js/qqmap-wx-jssdk.js'
 export default {
-  name: "detail",
-  data() {
+  name: 'detail',
+  data () {
     return {
-      bookId: "",
+      bookId: '',
       info: {},
       userInfo: {},
-      openId: "",
+      openId: '',
       tags: [],
-      comment: "",
+      comment: '',
       commentList: [],
-      location: "",
-      phone: "",
+      location: '',
+      phone: '',
       // 腾讯位置服务API核心类实例
       qqmapsdk: null
-    };
+    }
   },
   components: {
     RateComponent,
     CommentListComponent
   },
   computed: {
-    showAdd() {
+    showAdd () {
       if (this.commentList.filter(item => item.openid === this.openId).length) {
-        return false;
+        return false
       }
-      return true;
+      return true
     }
   },
   methods: {
     // 添加评论
-    async addComment() {
+    async addComment () {
       if (!this.comment) {
-        return;
+        return
       }
       const data = {
         openid: this.openId,
@@ -101,85 +101,89 @@ export default {
         comment: this.comment,
         phone: this.phone,
         location: this.location
-      };
+      }
       try {
-        await POST("/addcomment", data);
-        this.comment = "";
-        this.getComments();
+        await POST('/addcomment', data)
+        this.comment = ''
+        this.getComments()
       } catch (e) {
-        showModal("失败", e.msg);
+        showModal('失败', e.msg)
       }
     },
     // 获取评论
-    async getComments() {
-      const comments = await GET("/commentlist", { bookid: this.bookId });
-      this.commentList = comments.list || [];
-      console.log("comments", this.commentList);
+    async getComments () {
+      const comments = await GET('/commentlist', { bookid: this.bookId })
+      this.commentList = comments.list || []
+      console.log('comments', this.commentList)
     },
     // 获取地理位置
-    getGeo(e) {
+    getGeo (e) {
       if (e.target.value) {
         wx.getLocation({
           success: geo => {
-            let latitude = geo.latitude;
-            let longitude = geo.longitude;
+            let latitude = geo.latitude
+            let longitude = geo.longitude
             this.qqmapsdk.reverseGeocoder({
               location: {
                 latitude,
                 longitude
               },
               success: res => {
-                this.location = res.result.ad_info.city;
+                this.location = res.result.ad_info.city
               },
               fail: res => {
-                this.location = res;
+                this.location = res
               }
-            });
+            })
           }
-        });
+        })
       } else {
-        this.location = "";
+        this.location = ''
       }
     },
     // 获取手机型号
-    getPhone(e) {
+    getPhone (e) {
       if (e.target.value) {
-        const phoneInfo = wx.getSystemInfoSync();
-        this.phone = phoneInfo.model;
+        const phoneInfo = wx.getSystemInfoSync()
+        this.phone = phoneInfo.model
       } else {
-        this.phone = "";
+        this.phone = ''
       }
     },
     // 获取图书详情
-    async getDetail() {
-      let res = await GET("/bookDetail", { id: this.bookId });
-      this.info = res.info;
-      this.openId = this.info.user.openid;
-      this.userInfo = JSON.parse(this.info.user.user_info);
-      this.tags = this.info.tags.split(",");
+    async getDetail () {
+      let res = await GET('/bookDetail', { id: this.bookId })
+      this.info = Object.assign({}, res.info)
+      this.openId = this.info.user.openid
+      this.userInfo = JSON.parse(this.info.user.user_info)
+      this.tags = this.info.tags.split(',')
       wx.setNavigationBarTitle({
         title: this.info.title
-      });
-      console.log(this.info);
+      })
     }
   },
-  onLoad() {
+  onLoad () {
     // 实例化API核心类
     this.qqmapsdk = new QQMapWX({
-      key: "F75BZ-LVX63-EII3P-YBKWW-2S636-LLBCR"
-    });
+      key: 'F75BZ-LVX63-EII3P-YBKWW-2S636-LLBCR'
+    })
   },
-  onShow() {
-    this.bookId = this.$root.$mp.query.id;
-    this.getDetail();
-    this.getComments();
+  onPullDownRefresh () {
+    this.bookId = this.$root.$mp.query.id
+    this.getDetail()
+    this.getComments()
   },
-  onShareAppMessage(res) {
+  onShow () {
+    this.bookId = this.$root.$mp.query.id
+    this.getDetail()
+    this.getComments()
+  },
+  onShareAppMessage (res) {
     return {
       title: this.info.title
-    };
+    }
   }
-};
+}
 </script>
 <style lang="scss" scoped>
 .btn {

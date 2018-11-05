@@ -34,18 +34,18 @@
 
 <script>
 export default {
-  props: ["comments", "type"],
+  props: ['comments', 'type'],
   methods: {
-    handleClick(comment) {
-      if (this.type === "user") {
+    handleClick (comment) {
+      if (this.type === 'user') {
         this.$router.push({
-          path: "/pages/detail/main",
+          path: '/pages/detail/main',
           query: { id: comment.bookid }
-        });
+        })
       }
     }
   }
-};
+}
 </script>
 
 <style lang='scss'>

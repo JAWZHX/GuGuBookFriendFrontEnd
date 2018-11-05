@@ -15,7 +15,7 @@
     </div>
 </template>
 <script>
-import {login, successToast, failToast, saveOrUpdateUser, userLogin, getUserInfo, POST} from '../../utils/index'
+import {login, successToast, failToast, saveOrUpdateUser, userLogin, getUserInfo} from '../../utils/index'
 import store from '../../store.js'
 import ProgressComponent from '../../components/progress.vue'
 import config from '../../config'

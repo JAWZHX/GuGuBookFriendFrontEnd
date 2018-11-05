@@ -10,7 +10,7 @@
     </div>
 </template>
 <script>
-import { GET, userLogin } from '../../utils/index.js'
+import { userLogin } from '../../utils/index.js'
 import store from '../../store'
 import CardComponent from './../../components/card.vue'
 import config from '../../config'
@@ -44,7 +44,6 @@ export default {
 
       // let res = await GET('/booklist', {page: this.page, pageSize: this.pageSize})
       let result = []
-      let that = this
       wx.request({
         data: { page: this.page, pageSize: this.pageSize },
         url: config.host + '/booklist',
