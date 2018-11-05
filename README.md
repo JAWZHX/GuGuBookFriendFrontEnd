@@ -15,6 +15,9 @@
 ![分享图书功能](https://i.imgur.com/bilScCz.png)
 ## 图书评论功能
 ![图书评论功能](https://i.imgur.com/NciilyM.png)
+
+# 后台设计
+[https://github.com/JAWZHX/GuGuBookFriendBackEnd](https://github.com/JAWZHX/GuGuBookFriendBackEnd "后台设计GitHub地址")
 ## Build Setup
 
 ``` bash
