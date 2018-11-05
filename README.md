@@ -1,7 +1,20 @@
-# gugu-book-friend
+# 咕咕书友微信小程序前端
 
-> A Mpvue project
+> 基于mpvue进行开发
 
+# 界面
+## 书籍tab页
+![书籍tab页](https://i.imgur.com/V8BYKtQ.png)
+## 评论tab页
+![评论tab页](https://i.imgur.com/RzU1BGS.png)
+## 个人tab页
+![个人tab页](https://i.imgur.com/H8qB1nE.png)
+## 图书详情页
+![图书详情页](https://i.imgur.com/doIZlWB.png)
+## 分享图书功能
+![分享图书功能](https://i.imgur.com/bilScCz.png)
+## 图书评论功能
+![图书评论功能](https://i.imgur.com/NciilyM.png)
 ## Build Setup
 
 ``` bash
